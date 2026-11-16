@@ -1,0 +1,23 @@
+---
+# tasks file for haproxy_remote_local_fallback
+#
+
+# Install HAProxy
+- name: Install haproxy
+  ansible.builtin.package:
+    name: haproxy
+    state: present
+
+# Copy custom haproxy config
+- name: Copy additional configs
+  ansible.builtin.template:
+    src: "templates/remote_local_fallback.cfg.j2"
+    dest: "/etc/haproxy/remote_local_fallback.cfg"
+    mode: "0644"
+
+# Add custom haproxy config to systemd service file
+- name: Include custom haproxy config in systemd service file
+  ansible.builtin.lineinfile:
+    path: "/usr/lib/systemd/system/haproxy.service"
+    regexp: '^Environment='
+    line: Environment="CONFIG=/etc/haproxy/haproxy.cfg" "EXTRACONFIG=/etc/haproxy/remote_local_fallback.cfg" "PIDFILE=/run/haproxy.pid" "EXTRAOPTS=-S /run/haproxy-master.sock"

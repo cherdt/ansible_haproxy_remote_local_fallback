@@ -1,0 +1,14 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+frontend http_proxy
+  mode http
+  bind :4130
+  default_backend web_servers
+
+backend web_servers
+    option httpchk
+    http-check expect status 200
+    server srv1 {{ remote_ip}}:{{ remote_port }} check
+    server backup srv2 {{ local_ip }}:{{ local_port }} check

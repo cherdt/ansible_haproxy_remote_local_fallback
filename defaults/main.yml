@@ -1,0 +1,7 @@
+---
+# defaults file for haproxy_remote_local_fallback
+
+remote_ip: 198.51.100.1
+remote_port: 80
+local_ip: 127.0.0.1
+local_port: 80
