@@ -4,11 +4,11 @@
 
 frontend http_proxy
   mode http
-  bind :4130
+  bind :{{ frontend_port }}
   default_backend web_servers
 
 backend web_servers
     option httpchk
     http-check expect status 200
     server srv1 {{ remote_ip}}:{{ remote_port }} check
-    server backup srv2 {{ local_ip }}:{{ local_port }} check
+    server srv2 {{ local_ip }}:{{ local_port }} check backup
