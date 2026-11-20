@@ -3,6 +3,8 @@ Ansible HAProxy Remote with Local Fallback
 
 A work in progress. The goal is to have a repeatable deployment of HAProxy that loads content from one or more remote backend servers, but if they are not available fails over to a local server as a backup.
 
+Lightbulb moment! Why would I even need to do this? HAProxy delivers a 503 errorpage if no backend servers are available. I could just customize that to some extent. HAProxy claims you can "customize the HTTP error pages clients receive to add your own styling, text, and images" although I don't know that HAProxy can deliver any associated images. 
+
 Requirements
 ------------
 
@@ -26,14 +28,18 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    - hosts: localhost
       roles:
-         - { role: username.rolename, x: 42 }
+        - role: haproxy_remote_local_fallback
+
+Or
+
+    ansible-playbook -i localhost, -K playbook.yml
 
 License
 -------
 
-None selected yet!
+The Unlicense.
 
 Author Information
 ------------------

@@ -7,6 +7,7 @@
   ansible.builtin.package:
     name: haproxy
     state: present
+  become: true
 
 # Copy custom haproxy config
 - name: Copy additional configs
@@ -14,6 +15,7 @@
     src: "templates/remote_local_fallback.cfg.j2"
     dest: "/etc/haproxy/remote_local_fallback.cfg"
     mode: "0644"
+  become: true
 
 # Add custom haproxy config to systemd service file
 - name: Include custom haproxy config in systemd service file
@@ -21,6 +23,7 @@
     path: "/usr/lib/systemd/system/haproxy.service"
     regexp: '^Environment='
     line: Environment="CONFIG=/etc/haproxy/haproxy.cfg" "EXTRACONFIG=/etc/haproxy/remote_local_fallback.cfg" "PIDFILE=/run/haproxy.pid" "EXTRAOPTS=-S /run/haproxy-master.sock"
+  become: true
 
 # Add EXTRACONFIG to the HAProxy ExecStart
 - name: Include EXTRACONFIG in the ExecStart command
@@ -28,11 +31,14 @@
     path: "/usr/lib/systemd/system/haproxy.service"
     regexp: '^ExecStart='
     line: ExecStart=/usr/sbin/haproxy -Ws -f $CONFIG -f $EXTRACONFIG -p $PIDFILE $EXTRAOPTS
+  become: true
 
 # Add EXTRACONFIG to the HAProxy ExecReload
 
-- name: Include EXTRACONFIG in the ExecStart command
+- name: Include EXTRACONFIG in the ExecReload command
   ansible.builtin.lineinfile:
     path: "/usr/lib/systemd/system/haproxy.service"
     regexp: '^ExecReload='
     line: ExecReload=/usr/sbin/haproxy -Ws -f $CONFIG -f $EXTRACONFIG -c -q $EXTRAOPTS
+  become: true
+

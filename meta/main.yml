@@ -1,0 +1,17 @@
+galaxy_info:
+  author: cherdt
+  description: haproxy config 
+
+  license: The Unlicense
+
+  min_ansible_version: 2.1
+
+   platforms:
+   - name: Ubuntu
+     versions:
+     - resolute
+     - noble
+
+  galaxy_tags: []
+
+dependencies: []

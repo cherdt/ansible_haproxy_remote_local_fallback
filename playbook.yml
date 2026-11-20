@@ -1,0 +1,5 @@
+---
+
+- hosts: localhost
+  roles:
+    - role: haproxy_remote_local_fallback
